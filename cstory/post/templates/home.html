@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class ="bg-img">
+<h1>Latest Post, Story and Blog</h1>
+</div>
+<br>
+<div class=' container'>
+  <div class="row">
+	<div class="left-column col-lg-7 offset-lg-1">
+          <!-- Top 'create post' bar -->
+          <div class="d-lg-none mb-3">
+            <div class="card m-auto d-flex flex-column p-3">
+             
+                <p class="lead" style="color: black;">Write your Story, get up to 1000 reads and get paid 20,000 naira.  <b>Passion can make you earn</b> </p>
+              <p class="m-auto"><a href="{% url 'add_post' %}" class="btn btn-primary">Create post</a></p>
+            </div>
+            </div>
+        </div>
+{% if object_list %}
+
+
+{% for post in object_list %}
+
+
+<div class="card" style="width: 70%; margin-bottom: 30px; ">
+  
+  
+  <div class="card-body">
+    <h5 class="card-title"><a href="{% url 'article-detail' post.pk %}">{{ post.title }} - 
+
+</a>
+<a href="{% url 'category' post.category|slugify %}">{{ post.category }} </a> <br>
+ Author : {{ post.author.first_name }} 
+{{ post.author.last_name }}</span>
+{% if user.is_authenticated %}{% if user.id == post.author.id %}<br> <small><a href='{% url "update_post" post.pk %}' class="btn btn-secondary btn-sm"> Edit</a> <a href='{% url "delete_post" post.pk %}' class="btn btn-danger btn-sm">Delete</a></small><br>
+{% endif %}{% endif %}</h5>
+    <p class="card-text">
+    {% if post.header_img %}
+    <br>
+    <a href="{% url 'article-detail' post.pk %}">
+  <img class="card-img-top" src="{{ post.header_img.url }}" alt="Card image cap" width="100%"> </a></p>
+  <br><br>
+  {% endif %}
+  <p class="text-muted">
+{{ post.snippet }}
+    </p>
+    <p class="card-text"><small class="text-muted">{{ post.post_date}}</small></p>
+  </div>
+   
+</div>
+
+<div class="right-column col-lg-3 d-lg-flex d-none flex-column">
+  <div class="card create-post-bar d-flex flex-column p-3">
+        
+          
+         <p class="lead" style="color: black;">Write your Story, and blog post here</b> </p>
+          <p class="m-auto"><a href="{% url 'add_post' %}" class="btn btn-primary">Create post</a></p>
+        </div>
+      </div>
+
+{% endfor %}
+{% else %}
+<h3> No post yet </h3>
+
+{% endif %}
+
+
+</div>
+</div>
+{% endblock %}

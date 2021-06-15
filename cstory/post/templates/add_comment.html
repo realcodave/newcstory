@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}
+ 
+<title> Add Comment</title>
+{% endblock %}
+<div class="container">
+	<div class="row">
+{% block content %}
+{% if user.is_authenticated %}
+<h2>Add Comment</h2>
+<br><br>
+<div class="form-group">
+<form method="post">
+{% csrf_token %}
+
+{{ form.as_p }}
+<button class="btn btn-secondary">Post</button>
+</div>
+<script>
+var fname="{{ user.first_name }}";
+var lname = "{{ user.last_name }}";
+document.getElementById('author').value = ( fname + " " + lname);
+</script>
+{% else %}
+<strong> You're not allowed to post yet, login <a href="{% url 'login' %}"> here </a> </strong> or register <a href="{% url 'register' %}"> here</a></strong>
+{% endif %}
+</div></div>
+{% endblock %}
+

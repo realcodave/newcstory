@@ -1,0 +1,31 @@
+{% extends 'base.html' %} 
+{% block title %}
+<title> Edit Story </title>
+{% endblock %}
+{% block content %} 
+<div class="container">
+	<div class="row">
+{% if user.is_authenticated %}
+{% if user.id == post.author.id %}
+<h2>Edit Story </h2>
+<br><br>
+
+<div class="form-group">
+<form method="post" enctype ="multipart/form-data">
+{% csrf_token %}
+{{ form.media }}
+{{ form.as_p }}
+<button class="btn btn-secondary">Update</button>
+</div>
+{% else %}
+<strong style="color:red;"> You're not allowed to Edit this post
+{% endif %}
+{% else %}
+<strong> You're not allowed to post yet, login <a href="{% url 'login' %}"> here </a> </strong> or register <a href="{% url 'register' %}"> here</a></strong>
+{% endif %}
+<script>
+var name="{{ user.id }}";
+document.getElementById('author').value = name
+</script>
+</div></div>
+{% endblock %}

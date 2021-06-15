@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}
+<div class="container">
+	<div class="row">
+<title> Add New Category</title>
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+{% if user.username == "admin" %}
+<h2>Add New Category</h2>
+<br><br>
+<div class="form-group">
+<form method="post">
+{% csrf_token %}
+{{ form.as_p }}
+<button class="btn btn-secondary">Post</button>
+</div>
+{% else %}
+<strong> You are not permitted to add new categories</strong>
+{% endif %}
+{% else %}
+<strong> You're not allowed to post yet, login <a href="{% url 'login' %}"> here </a> </strong> or register <a href="{% url 'register' %}"> here</a></strong>
+{% endif %}
+</div></div>
+{% endblock %}
+

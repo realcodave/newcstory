@@ -1,0 +1,117 @@
+{% load static %}
+<!doctype html> <html lang="en"> <head> <!-- Required meta tags --> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Bootstrap CSS --> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"> 
+{% block title %}
+<title>Cstory</title>
+{% endblock %}
+<style>
+a{
+text-decoration:none;
+}
+body{
+	background-color: black;
+	color: grey;
+}
+.bg-img {
+    background-image: url("{% static 'posts/images/j.jpg' %}"),
+    linear-gradient(rgba(0, 0, 80, 1), rgba(0, 0, 0, 1)) ;
+    width: 100%;
+    height: 50vh;
+    background-size: cover;
+     
+    padding: 20px;
+}
+.bg-img h1{
+	color: white;
+	font-weight: bold;
+	margin-top: 70px;
+	background: rgba(0,0,0,0.3);
+	width:100%;
+	
+}
+h1,h2,h3,p,span {
+	color: white;
+}
+</style>
+</head> 
+<body> 
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark"> <div class="container-fluid"> <a class="navbar-brand" href="{% url 'home' %}">Cstory</a> 
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+ <span class="navbar-toggler-icon">
+</span> 
+</button> 
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      
+      {% if user.profile.id %}
+   <li class="nav-item"><a class="nav-link"  href="{% url 'show_profile_page' user.profile.id %}">
+{{ user.first_name }}
+  {{ user.last_name }}
+  </a></li>
+  {% else %}
+   <li class="nav-item"><a class="nav-link" href="{% url 'create_profile_page' %}">  {{ user.first_name }}
+  {{ user.last_name }}
+  </a></li>
+  {% endif %}
+
+      {% if cat_menu %}
+      <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Categories
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          
+          {% for item in cat_menu %}
+       <li><a class="dropdown-item" href="{% url 'category' item|slugify %}">   {{ item }} </a></li>
+          {% endfor %}
+          
+          
+          
+            
+          </ul>
+        </li>
+      {% endif %}
+{% if user.is_authenticated %}
+<li class="nav-item"> <a class="nav-link" href="{% url 'add_post' %}">Add Post</a> </li> 
+
+{% if user.username == "admin" %}
+<li class="nav-item"> <a class="nav-link" href="{% url 'add_category' %}">Add Category</a> </li>
+{% endif %}
+<li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Profile
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{% url 'edit_profile' %}">Edit Settings</a></li>
+            {% if user.profile.id %}
+            <li><a class="dropdown-item" href="{% url 'edit_profile_page' user.profile.id %}">Edit Profile Page</a></li>
+              <li><a class="dropdown-item" href="{% url 'show_profile_page' user.profile.id %}">Show Profile Page</a></li>
+            {% else %}
+            <li><a class="dropdown-item" href="{% url 'create_profile_page' %}">Create Profile Page</a></li>
+            {% endif %}
+          
+          </ul>
+        </li>
+
+
+<li class="nav-item"> <a class="nav-link" href="{% url 'logout' %}">Logout</a> </li> 
+
+   
+{% else %}
+
+<li class="nav-item"> <a class="nav-link" href="{% url 'register' %}">Register</a> </li> 
+
+
+<li class="nav-item"> <a class="nav-link" href="{% url 'login' %}">Login</a> </li> 
+{% endif %}
+ </div> </div> </nav>
+<br>
+<div class="main">
+{% block content %}
+{% endblock content %}
+</div>
+
+<div  style="background:white; color:gray; height: 40px; width:100%; text-align:center;margin-top: 500px">
+Cstory © All rights reservered ® 2012
+</div>
+<!-- Optional JavaScript; choose one of the two! --> <!-- Option 1: Bootstrap Bundle with Popper --> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script> <!-- Option 2: Separate Popper and Bootstrap JS --> <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script> --> </body> </html>

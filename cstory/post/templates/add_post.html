@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}
+ <div class="container">
+	<div class="row">
+<title> Add New Post</title>
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<h2>Add New Post </h2>
+<br><br>
+<div class="form-group">
+<form method="post" enctype = "multipart/form-data">
+{% csrf_token %}
+{{ form.media }}
+{{ form.as_p }}
+<button class="btn btn-secondary">Post</button>
+</div>
+<script>
+var name="{{ user.id }}";
+document.getElementById('author').value = name
+</script>
+
+{% else %}
+<strong> You're not allowed to post yet, login <a href="{% url 'login' %}"> here </a> </strong> or register <a href="{% url 'register' %}"> here</a></strong>
+{% endif %}
+</div><div>
+{% endblock %}
+

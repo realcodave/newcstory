@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}
+<title> CStory Category</title>
+{% endblock %}
+{% block content %}
+
+          {% for item in cat_menu %}
+       <li><a class="dropdown-item" href="{% url 'category' item|slugify %}">   {{ item }} </a></li>
+          {% endfor %}
+     {% endblock %}
